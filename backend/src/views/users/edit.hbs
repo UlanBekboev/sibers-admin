@@ -1,0 +1,30 @@
+<h1>Edit User</h1>
+
+<form action="/users/{{user.id}}/edit" method="POST">
+  <p>
+    <label>Username:</label><br>
+    <input type="text" name="username" value="{{user.username}}" required>
+  </p>
+  <p>
+    <label>First Name:</label><br>
+    <input type="text" name="first_name" value="{{user.firstName}}">
+  </p>
+  <p>
+    <label>Last Name:</label><br>
+    <input type="text" name="last_name" value="{{user.last_name}}">
+  </p>
+  <p>
+    <label>Gender:</label><br>
+    <select name="gender" required>
+      <option value="male" {{#if (eq user.gender "male")}}selected{{/if}}>Male</option>
+      <option value="female" {{#if (eq user.gender "female")}}selected{{/if}}>Female</option>
+    </select>
+  </p>
+  <p>
+    <label>Birthdate:</label><br>
+    <input type="date" name="birthdate" value="{{user.birthdate}}">
+  </p>
+  <button type="submit">Update</button>
+</form>
+
+<p><a href="/users">← Back to list</a></p>

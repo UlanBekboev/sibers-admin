@@ -16,6 +16,6 @@ export const sequelize = new Sequelize({
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT) || 5433,
   dialect: "postgres",
-  models: [join(__dirname + "/../models")], // путь к моделям
+  models: [join(__dirname, "..", "models", "*.js")], // путь к моделям
   logging: false,
 });
