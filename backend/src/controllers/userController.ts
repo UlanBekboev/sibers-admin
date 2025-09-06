@@ -28,6 +28,7 @@ export const getUsers = async (req: Request, res: Response) => {
       totalPages,
       sortField,
       sortOrder,
+      adminId: (req.session as any).adminId,
     });
   } catch (error) {
     console.error(error);
@@ -64,6 +65,15 @@ export const addUser = async (req: Request, res: Response) => {
   try {
     const { username, password, firstName, lastName, gender, birthdate } = req.body;
 
+    if (!username || !password || !firstName || !lastName || !gender || !birthdate) {
+      return res.render("users/create", { error: "All fields are required", formData: req.body });
+    }
+
+    const existingUser = await User.findOne({ where: { username } });
+    if (existingUser) {
+      return res.render("users/create", { error: "Username already exists", formData: req.body });
+    }
+
     await User.create({
       username,
       password, 
@@ -76,7 +86,7 @@ export const addUser = async (req: Request, res: Response) => {
     res.redirect("/users");
   } catch (error) {
     console.error("Error creating user:", error);
-    res.status(500).send("Server error");
+    res.render("users/add", { error: "Failed to create user", formData: req.body });
   }
 };
 

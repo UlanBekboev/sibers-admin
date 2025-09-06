@@ -11,6 +11,9 @@ import { sequelize } from './config/db.js';
 import exphbs from 'express-handlebars';
 import userRoutes from './routes/userRoutes.js';
 import { User } from './models/User.js';
+import { Admin } from './models/Admin.js'
+import authRoutes from './routes/authRoutes.js';
+import { isAuthenticated } from './middlewares/auth.js';
 
 dotenv.config();
 
@@ -72,10 +75,11 @@ app.get('/', (req, res) => {
   res.render('index', { title: 'Welcome', message: 'Hello from Express + TS!' });
 });
 
-app.use('/', userRoutes);
+app.use('/', authRoutes);
+app.use('/', isAuthenticated, userRoutes);
 
 // DB connect
-sequelize.addModels([User]);
+sequelize.addModels([User, Admin]);
 
 sequelize
   .authenticate()

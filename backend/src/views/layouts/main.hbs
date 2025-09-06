@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>{{title}}</title>
-</head>
-<body>
-  {{{body}}}  
-</body>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <title>{{title}}</title>
+  </head>
+  <body>
+    {{{body}}}
+    {{#if adminId}}
+      <a href='/logout' style='font-size: 20px'>Logout</a>
+    {{/if}}
+  </body>
 </html>
