@@ -1,29 +1,29 @@
 <h1>Edit User</h1>
 
-<form action="/users/{{user.id}}/edit" method="POST">
-  <p>
-    <label>Username:</label><br>
-    <input type="text" name="username" value="{{user.username}}" required>
-  </p>
-  <p>
-    <label>First Name:</label><br>
-    <input type="text" name="first_name" value="{{user.firstName}}">
-  </p>
-  <p>
-    <label>Last Name:</label><br>
-    <input type="text" name="last_name" value="{{user.last_name}}">
-  </p>
-  <p>
-    <label>Gender:</label><br>
-    <select name="gender" required>
-      <option value="male" {{#if (eq user.gender "male")}}selected{{/if}}>Male</option>
-      <option value="female" {{#if (eq user.gender "female")}}selected{{/if}}>Female</option>
+{{#if error}}
+  <p style="color:red;">{{error}}</p>
+{{/if}}
+
+<form class="form" action="/users/{{user.id}}/edit" method="POST" novalidate>
+    <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+    <label class="form__field" for="username-input">Username:</label>
+    <input id="username-input" class="form__input" type="text" name="username" value="{{user.username}}" required>
+  
+    <label class="form__field" for="firstName-input">First Name:</label>
+    <input id="firstName-input" class="form__input" type="text" name="first_name" value="{{user.firstName}}">
+  
+    <label class="form__field" for="lastName-input">Last Name:</label>
+    <input id="lastName-input" class="form__input" type="text" name="last_name" value="{{user.last_name}}">
+  
+    <label class="form__field" for="gender-input">Gender:</label>
+    <select id="gender-input" class="form__select" name="gender" required>
+      <option class="form__option" value="male" {{#if (eq user.gender "male")}}selected{{/if}}>Male</option>
+      <option class="form__option" value="female" {{#if (eq user.gender "female")}}selected{{/if}}>Female</option>
     </select>
-  </p>
-  <p>
-    <label>Birthdate:</label><br>
-    <input type="date" name="birthdate" value="{{user.birthdate}}">
-  </p>
+  
+    <label class="form__field" for="birthdate-input">Birthdate:</label>
+    <input id="birthdate-input" class="form__input" type="date" name="birthdate" value="{{user.birthdate}}">
+  
   <button type="submit">Update</button>
 </form>
 

@@ -1,12 +1,20 @@
 <html lang='en'>
   <head>
     <meta charset='UTF-8' />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/styles.css" />
     <title>{{title}}</title>
   </head>
-  <body>
-    {{{body}}}
+  <body class="page">
     {{#if adminId}}
-      <a href='/logout' style='font-size: 20px'>Logout</a>
+      {{> header}}
     {{/if}}
+    <div class="container">
+      {{{body}}}
+      {{#if adminId}}
+        <a class="link logout" type="submit" href='/logout'>Logout</a>
+      {{/if}}
+    </div>
+    <script src="/js/formValidation.js"></script>
   </body>
 </html>

@@ -1,4 +1,3 @@
-// src/app.ts
 import express, { Application } from 'express';
 import session from 'express-session';
 import path, { join } from 'path';
@@ -8,77 +7,88 @@ import morgan from 'morgan';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { sequelize } from './config/db.js';
-import exphbs from 'express-handlebars';
+import { engine } from 'express-handlebars';
 import userRoutes from './routes/userRoutes.js';
 import { User } from './models/User.js';
-import { Admin } from './models/Admin.js'
+import { Admin } from './models/Admin.js';
 import authRoutes from './routes/authRoutes.js';
 import { isAuthenticated } from './middlewares/auth.js';
+import csrf from 'csurf';
 
 dotenv.config();
 
+// Convert ES module URL to file path
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app: Application = express();
 
+// Configure Handlebars view engine
 app.engine(
-  "hbs",
-  exphbs.engine({
-    extname: "hbs",
-    defaultLayout: "main",
-    layoutsDir: join(__dirname, "views/layouts"),
-    partialsDir: join(__dirname, "views/partials"),
+  'hbs',
+  engine({
+    extname: 'hbs',
+    defaultLayout: 'main',
+    layoutsDir: join(__dirname, 'views/layouts'),
+    partialsDir: join(__dirname, 'views/partials'),
     helpers: {
       eq: (a: any, b: any) => a === b,
       gt: (a: number, b: number) => a > b,
-      range: (start: number, end: number) => {
+      range: (start: number, end: number) => { // Generate array of numbers for pagination
         const arr = [];
         for (let i = start; i <= end; i++) arr.push(i);
         return arr;
       },
-      toggleOrder: (order: string) => (order === "asc" ? "desc" : "asc"),
+      toggleOrder: (order: string) => (order === 'asc' ? 'desc' : 'asc'), // Toggle sorting order
     },
-  })
+  }),
 );
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Middleware
+// Helmet for security headers (Content Security Policy)
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", 'https://cdnjs.cloudflare.com'], // если нужны внешние скрипты
+      scriptSrc: ["'self'", "'unsafe-eval'", 'https://cdnjs.cloudflare.com'],
       styleSrc: ["'self'", "'unsafe-inline'"],
       imgSrc: ["'self'", 'data:'],
+      connectSrc: ["'self'"],
+      fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+      objectSrc: ["'none'"],
+      frameSrc: ["'none'"],
     },
   }),
 );
-app.use(morgan('dev'));
+app.use(morgan('dev')); // Log HTTP requests
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
+// Session configuration
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'secret',
-    resave: false,
-    saveUninitialized: false,
+    resave: false, // Don't save session if unmodified
+    saveUninitialized: false, // Don't save empty session
   }),
 );
 
-// Статика
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(csrf()); // Enable CSRF protection
 
-// Роуты (позже подключим auth, users и т.п.)
-app.get('/', (req, res) => {
-  res.render('index', { title: 'Welcome', message: 'Hello from Express + TS!' });
+// Pass CSRF token to all templates
+app.use((req, res, next) => {
+  res.locals.csrfToken = req.csrfToken();
+  next();
 });
+
+// Serve static files from "public" folder
+app.use(express.static(path.join(__dirname, '../public')));
 
 app.use('/', authRoutes);
 app.use('/', isAuthenticated, userRoutes);
 
-// DB connect
+// Add Sequelize models
 sequelize.addModels([User, Admin]);
 
 sequelize

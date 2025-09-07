@@ -1,17 +1,38 @@
-<h1>Admin Login</h1>
+<div class='login-container'>
+  <h1 class='title login-title'>Admin Login</h1>
 
-{{#if error}}
-  <p style="color:red;">{{error}}</p>
-{{/if}}
+  {{#if error}}
+    <p style='color:red;'>{{error}}</p>
+  {{/if}}
 
-<form action="/login" method="POST">
-  <div>
-    <label>Username:</label>
-    <input type="text" name="username" required>
-  </div>
-  <div>
-    <label>Password:</label>
-    <input type="password" name="password" required>
-  </div>
-  <button type="submit">Login</button>
-</form>
+  <form class='form' action='/login' method='POST' novalidate>
+    <div>
+      <input type='hidden' name='_csrf' value='{{csrfToken}}' />
+      <label class='form__field' for='username-input'>Username:</label>
+      <input
+        id='username-input'
+        class='form__input'
+        type='text'
+        name='username'
+        autocomplete='off'
+        required
+        minlength='3'
+      />
+      <span class='username-input-error form__input-error'></span>
+    </div>
+    <div>
+      <label class='form__field' for='password-input'>Password:</label>
+      <input
+        id='password-input'
+        class='form__input'
+        type='password'
+        name='password'
+        autocomplete='new-password'
+        required
+        minlength='6'
+      />
+      <span class='password-input-error form__input-error'></span>
+    </div>
+    <button class='form__submit' type='submit'>Login</button>
+  </form>
+</div>

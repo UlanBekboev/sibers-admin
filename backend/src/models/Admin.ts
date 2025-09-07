@@ -1,4 +1,3 @@
-// src/models/Admin.ts
 import { Table, Column, Model, DataType, Unique } from "sequelize-typescript";
 import bcrypt from "bcrypt";
 
@@ -11,7 +10,7 @@ export class Admin extends Model {
   @Column(DataType.STRING)
   password!: string;
 
-  // Метод проверки пароля
+  // Method for checking password
   async checkPassword(password: string): Promise<boolean> {
     return bcrypt.compare(password, this.password);
   }

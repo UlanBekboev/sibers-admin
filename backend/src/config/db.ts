@@ -6,9 +6,11 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+// Convert current module URL to a file path (since __dirname is not available in ES modules)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// Create a Sequelize instance to connect to the database
 export const sequelize = new Sequelize({
   database: process.env.DB_NAME,
   username: process.env.DB_USER,
@@ -16,6 +18,6 @@ export const sequelize = new Sequelize({
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT) || 5433,
   dialect: "postgres",
-  models: [join(__dirname, "..", "models", "*.js")], // путь к моделям
+  models: [join(__dirname, "..", "models", "*.js")], // path to models
   logging: false,
 });

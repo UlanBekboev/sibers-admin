@@ -1,18 +1,15 @@
-import { Table, Column, Model, DataType, AllowNull, Sequelize } from "sequelize-typescript";
+import { Table, Column, Model, DataType, AllowNull, Sequelize } from 'sequelize-typescript';
 
 @Table({
-  tableName: "users",
-  timestamps: true,  // createdAt / updatedAt автоматически
-  underscored: true,  // Sequelize сам будет искать created_at, updated_at, first_name и т.д. 
+  tableName: 'users',
+  timestamps: true, // Automatically adds createdAt and updatedAt columns
+  underscored: true, // Convert camelCase fields to snake_case in DB (first_name, created_at, etc.)
 })
-export class User extends Model<
-  User,
-  Partial<User>
-> {
+export class User extends Model<User, Partial<User>> {
   @AllowNull(false)
   @Column({
     type: DataType.STRING,
-    unique: true, // username должен быть уникальным
+    unique: true, // username must be unique
   })
   username!: string;
 
@@ -25,22 +22,22 @@ export class User extends Model<
   @AllowNull(false)
   @Column({
     type: DataType.STRING,
-    field: "first_name",
+    field: 'first_name',
   })
   firstName!: string;
 
   @AllowNull(false)
   @Column({
     type: DataType.STRING,
-    field: "last_name",
+    field: 'last_name',
   })
   lastName!: string;
 
   @AllowNull(false)
   @Column({
-    type: DataType.ENUM("male", "female"),
+    type: DataType.ENUM('male', 'female'),
   })
-  gender!: "male" | "female";
+  gender!: 'male' | 'female';
 
   @AllowNull(false)
   @Column({

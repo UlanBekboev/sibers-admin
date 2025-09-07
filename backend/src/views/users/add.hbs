@@ -1,34 +1,38 @@
-<h1>Add New User</h1>
+<h1 class='title'>Add New User</h1>
 
-<form action="/add-user" method="POST">
-  <p>
-    <label>Username:</label><br>
-    <input type="text" name="username" required>
-  </p>
-  <p>
-    <label>Password:</label><br>
-    <input type="password" name="password" required>
-  </p>
-  <p>
-    <label>First Name:</label><br>
-    <input type="text" name="firstName">
-  </p>
-  <p>
-    <label>Last Name:</label><br>
-    <input type="text" name="lastName">
-  </p>
-  <p>
-    <label>Gender:</label><br>
-    <select name="gender" required>
-      <option value="male">Male</option>
-      <option value="female">Female</option>
-    </select>
-  </p>
-  <p>
-    <label>Birthdate:</label><br>
-    <input type="date" name="birthdate">
-  </p>
-  <button type="submit">Create</button>
+{{#if error}}
+  <p style='color:red;'>{{error}}</p>
+{{/if}}
+
+<form class='form' action='/add-user' method='POST' novalidate>
+  <input type='hidden' name='_csrf' value='{{csrfToken}}' />
+  <label class='form__field' for='username-input'>Username:</label>
+  <input id='username-input' class='form__input' type='text' name='username' required />
+  <span class='username-input-error form__input-error'></span>
+
+  <label class='form__field' for='password-input'>Password:</label>
+  <input id='password-input' class='form__input' type='password' name='password' required />
+  <span class='password-input-error form__input-error'></span>
+
+  <label class='form__field' for='firstName-input'>First Name:</label>
+  <input id='firstName-input' class='form__input' type='text' name='firstName' required minlength='2' />
+  <span class='firstName-input-error form__input-error'></span>
+
+  <label class='form__field' for='lastName-input'>Last Name:</label>
+  <input id='lastName-input' class='form__input' type='text' name='lastName' required minlength='2' />
+  <span class='lastName-input-error form__input-error'></span>
+
+  <label class='form__field' for='gender-input'>Gender:</label>
+  <select id='gender-input' class='form__select' name='gender' required>
+    <option class='form__option' value='male'>Male</option>
+    <option class='form__option' value='female'>Female</option>
+  </select>
+
+  <label class='form__field' for='birthdate-input'>Birthdate:</label>
+  <input id='birthdate-input' class='form__input' type='date' name='birthdate' required />
+  <span class='birthdate-input-error form__input-error'></span>
+
+  <button class='form__submit' type='submit'>Create</button>
 </form>
 
-<p><a href="/users">← Back to list</a></p>
+<p><a href='/users'>← Back to list</a></p>
