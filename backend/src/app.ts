@@ -40,6 +40,11 @@ app.engine(
         return arr;
       },
       toggleOrder: (order: string) => (order === 'asc' ? 'desc' : 'asc'), // Toggle sorting order
+      slugify: (str: string) =>
+        str
+          .toLowerCase()            // Convert the entire string to lowercase
+          .replace(/\s+/g, '-')     // Replace all spaces with hyphens
+          .replace(/[^a-z0-9\-]/g, ''), // Remove all characters except letters, numbers, and hyphens
     },
   }),
 );

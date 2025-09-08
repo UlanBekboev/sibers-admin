@@ -17,7 +17,7 @@
   justify-content: center;
 }
 
-nav {
+.header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -27,7 +27,7 @@ nav {
   color: #fff;
 }
 
-.nav-wrapper {
+.header__wrapper {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -234,7 +234,6 @@ p > a:hover {
   outline: none;
 }
 
-/* Опции селекта */
 .form__option {
   font-size: 1rem;
 }

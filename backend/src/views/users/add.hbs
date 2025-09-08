@@ -1,9 +1,5 @@
 <h1 class='title'>Add New User</h1>
 
-{{#if error}}
-  <p style='color:red;'>{{error}}</p>
-{{/if}}
-
 <form class='form' action='/add-user' method='POST' novalidate>
   <input type='hidden' name='_csrf' value='{{csrfToken}}' />
   <label class='form__field' for='username-input'>Username:</label>

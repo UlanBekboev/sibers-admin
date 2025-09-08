@@ -2,6 +2,8 @@
   <head>
     <meta charset='UTF-8' />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="#">
+    <meta name="description" content="A web-based admin panel for managing registered users of a website">
     <link rel="stylesheet" href="/css/styles.css" />
     <title>{{title}}</title>
   </head>
@@ -9,12 +11,12 @@
     {{#if adminId}}
       {{> header}}
     {{/if}}
-    <div class="container">
+    <section class="container {{slugify title}}">
       {{{body}}}
       {{#if adminId}}
         <a class="link logout" type="submit" href='/logout'>Logout</a>
       {{/if}}
-    </div>
+    </section>
     <script src="/js/formValidation.js"></script>
   </body>
 </html>

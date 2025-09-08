@@ -1,9 +1,5 @@
 <h1>Edit User</h1>
 
-{{#if error}}
-  <p style="color:red;">{{error}}</p>
-{{/if}}
-
 <form class="form" action="/users/{{user.id}}/edit" method="POST" novalidate>
     <input type="hidden" name="_csrf" value="{{csrfToken}}" />
     <label class="form__field" for="username-input">Username:</label>
